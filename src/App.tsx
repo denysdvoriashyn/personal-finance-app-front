@@ -7,6 +7,7 @@ import { DashboardView } from './components/DashboardView';
 import { TransactionsView } from './components/TransactionsView';
 import { BudgetsView } from './components/BudgetsView';
 import { CategoriesView } from './components/CategoriesView';
+import { AnalyticsView } from './components/AnalyticsView';
 import { Menu, Wallet } from 'lucide-react';
 
 const AppContent: React.FC = () => {
@@ -81,6 +82,8 @@ const AppContent: React.FC = () => {
         return <BudgetsView />;
       case 'categories':
         return <CategoriesView />;
+      case 'analytics':
+        return <AnalyticsView />;
       default:
         return <DashboardView setView={setView} onAddTransactionClick={handleQuickAddClick} />;
     }

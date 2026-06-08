@@ -7,7 +7,8 @@ import {
   PiggyBank, 
   Tags, 
   LogOut, 
-  Wallet
+  Wallet,
+  BarChart3
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -33,6 +34,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'transactions', label: 'Транзакції', icon: ArrowRightLeft },
     { id: 'budgets', label: 'Бюджети', icon: PiggyBank },
     { id: 'categories', label: 'Категорії', icon: Tags },
+    { id: 'analytics', label: 'Аналітика', icon: BarChart3 },
   ];
 
   const handleNavClick = (viewId: string) => {
