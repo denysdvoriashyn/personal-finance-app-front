@@ -326,3 +326,56 @@ select.form-control {
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
+
+/* Print Styles for clean report export */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  
+  aside,
+  header,
+  .no-print,
+  .btn,
+  button,
+  .form-group,
+  .mobile-header {
+    display: none !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+  
+  .glass-card {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  .custom-table {
+    width: 100% !important;
+    color: #000000 !important;
+  }
+  
+  .custom-table th {
+    color: #000000 !important;
+    border-bottom: 2px solid #000000 !important;
+  }
+  
+  .custom-table td {
+    color: #000000 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+  
+  p, h1, h2, h3, span {
+    color: #000000 !important;
+  }
+}
+

@@ -6,7 +6,9 @@ import {
   Search,
   X,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Download,
+  Printer
 } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 
@@ -113,6 +115,36 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
     }
   };
 
+  const exportToCSV = () => {
+    if (transactions.length === 0) {
+      alert('Немає транзакцій для експорту');
+      return;
+    }
+    
+    const headers = ['Дата', 'Опис', 'Категорія', 'Тип', 'Сума (грн)'];
+    const rows = transactions.map(t => [
+      new Date(t.date).toLocaleDateString('uk-UA'),
+      t.description || 'Без опису',
+      t.category?.name || 'Без категорії',
+      t.type === 'income' ? 'Дохід' : 'Витрата',
+      t.amount
+    ]);
+    
+    const csvContent = "\uFEFF" + [
+      headers.join(';'), 
+      ...rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(';'))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `finance_report_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const renderIcon = (iconName: string, color: string) => {
     const IconComponent = (LucideIcons as any)[iconName];
     if (IconComponent) {
@@ -138,14 +170,32 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
           <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.25rem' }}>Історія транзакцій</h1>
           <p style={{ color: 'var(--text-secondary)' }}>Керуйте своїми фінансовими операціями, додавайте витрати та надходження</p>
         </div>
-        <button 
-          onClick={() => setShowAddModal(true)}
-          className="btn btn-primary"
-          style={{ padding: '0.6rem 1.25rem', gap: '0.5rem' }}
-        >
-          <Plus size={18} />
-          Додати транзакцію
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <button 
+            onClick={exportToCSV}
+            className="btn btn-secondary no-print"
+            style={{ padding: '0.6rem 1.25rem', gap: '0.5rem' }}
+          >
+            <Download size={18} />
+            Експорт CSV
+          </button>
+          <button 
+            onClick={() => window.print()}
+            className="btn btn-secondary no-print"
+            style={{ padding: '0.6rem 1.25rem', gap: '0.5rem' }}
+          >
+            <Printer size={18} />
+            Звіт PDF
+          </button>
+          <button 
+            onClick={() => setShowAddModal(true)}
+            className="btn btn-primary no-print"
+            style={{ padding: '0.6rem 1.25rem', gap: '0.5rem' }}
+          >
+            <Plus size={18} />
+            Додати транзакцію
+          </button>
+        </div>
       </div>
 
       {/* Dynamic Filters Toolbar Panel */}
