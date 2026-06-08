@@ -15,8 +15,13 @@ export const AuthView: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
 
+    if (!isLogin && password.length < 6) {
+      setError('Пароль має містити не менше 6 символів');
+      return;
+    }
+
+    setLoading(true);
     try {
       if (isLogin) {
         await login(email, password);
@@ -157,6 +162,11 @@ export const AuthView: React.FC = () => {
                 style={{ paddingLeft: '2.8rem' }}
               />
             </div>
+            {!isLogin && (
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.35rem', display: 'block' }}>
+                * Пароль має містити не менше 6 символів
+              </span>
+            )}
           </div>
 
           <button
